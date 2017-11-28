@@ -1,0 +1,22 @@
+{
+  "title": "Seed Draft",
+  "completed": false,
+  "teams": [
+    {"name": "team1"},
+    {"name": "team2"},
+    {"name": "team3"},
+    {"name": "team4"},
+    {"name": "team5"},
+    {"name": "team6"},
+    {"name": "team7"},
+    {"name": "team8"},
+    {"name": "team9"},
+    {"name": "team10"}
+  ],
+  "picks": [
+    {"name": "Tom Brady", "position": "QB", "team": "NE", "bye": 9, "selected_by": "team1"},
+    {"name": "Dustin Johnson", "position": "RB", "team": "AR", "bye": 8, "selected_by": "team2"},
+    {"name": "Aaron Rodgers", "position": "QB", "team": "GB", "bye": 5, "selected_by": "team3"},
+    {"name": "Odell Beckham", "position": "WR", "team": "NYG", "bye": 6, "selected_by": "team4"}
+  ]
+}
