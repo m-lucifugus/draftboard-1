@@ -5,7 +5,7 @@ class DraftInfo extends Component {
   state = {draft: {}}
 
   componentDidMount() {
-    fetch(`/api/${this.props.match.url}`)
+    fetch(`/api${this.props.match.url}`)
       .then(res => res.json())
       .then(data => this.setState({ draft: data.draft }));
   }
@@ -33,7 +33,7 @@ class DraftInfo extends Component {
         <ul>
           {
             this.state.draft.teams && this.state.draft.teams.map(team =>
-              <li>{team.name}</li>
+              <li key={team.name}>{team.name}</li>
             )
           }
         </ul>

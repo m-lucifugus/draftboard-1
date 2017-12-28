@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const {Draft} = require('../models/draft');
+const {Pick} = require('../models/pick');
 const {ObjectId} = require('mongodb');
 
 router.get('/', (req, res) => {
@@ -41,6 +42,37 @@ router.get('/:id', (req, res) => {
     }
 
     res.send({draft});
+  }).catch((e) => {
+    res.status(400).send();
+  })
+});
+
+router.post('/:id/pick', (req, res) => {
+  let id = req.params.id;
+
+  if (!ObjectId.isValid(id)) {
+    return res.status(404).send('Draft ID is not valid');
+  }
+
+  Draft.findById(id).then((draft) => {
+    if (!draft) {
+      return res.status(404).send();
+    }
+
+    let pick = new Pick({
+      name: req.body.name,
+      position: req.body.position,
+      team: req.body.team,
+      selected_by: "some team", // Should be draft.current_pick.team
+    });
+
+    draft.picks.push(pick);
+
+    draft.save().then((doc) => {
+      res.send(doc)
+    }, (e) => {
+      res.status(400).send(e)
+    });
   }).catch((e) => {
     res.status(400).send();
   })

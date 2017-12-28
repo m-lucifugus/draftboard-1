@@ -5,7 +5,7 @@ class Drafts extends Component {
   state = {drafts: []}
 
   componentDidMount() {
-    fetch(`/api/${this.props.match.url}`)
+    fetch(`/api${this.props.match.url}`)
       .then(res => res.json())
       .then(data => this.setState({ drafts: data.drafts }));
   }
