@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import players from './data/players.json';
 
 class Pick extends Component {
-  state = {playerToDraft: "", draft: {}}
+  state = {playerToDraft: "", draft: null}
 
   componentDidMount() {
     fetch(`/api/drafts/${this.props.match.params.id}`)
@@ -31,17 +31,21 @@ class Pick extends Component {
         //make sure to serialize your JSON body
         body: JSON.stringify(this.state.playerToDraft)
       })
-      .then( (response) => {
-        console.log("Player drafted!");
-        this.setState({ playerToDraft: "" });
+      .then(res => res.json())
+      .then(data => {
+        console.log("Player drafted!", data);
+        this.setState({ playerToDraft: "", draft: data.draft});
       });
     }
   }
 
   render() {
+    if (this.state.draft === null) {
+      return null;
+    }
     return (
       <div className="Pick">
-        <h1>Pick</h1>
+        <h1>Pick {this.state.draft.picks.length % 10 + 1} in Round {Math.floor(this.state.draft.picks.length / 10) + 1}</h1>
         <select onChange={this.pickIsIn.bind(this)} value={JSON.stringify(this.state.playerToDraft)}>
             <option value="">Select Player</option>
             {

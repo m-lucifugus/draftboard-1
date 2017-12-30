@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 class Board extends Component {
-  state = {draft: {}}
+  state = {draft: null}
 
   componentDidMount() {
     fetch(`/api/drafts/${this.props.match.params.id}`)
@@ -10,13 +10,17 @@ class Board extends Component {
   }
 
   render() {
+    if (this.state.draft === null) {
+      return null;
+    }
+
     return (
       <div className="Board">
         <h1>Board</h1>
-        <div>
-          {this.state.draft.title}
-        </div>
-        <h2>Picks</h2>
+        <h2>
+          {this.state.draft.title}: Pick {this.state.draft.picks.length % 10 + 1} in Round {Math.floor(this.state.draft.picks.length / 10) + 1}
+        </h2>
+        <h3>Picks</h3>
         <ul>
           {
             this.state.draft.picks && this.state.draft.picks.map(pick =>

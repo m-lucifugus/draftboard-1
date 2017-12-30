@@ -68,8 +68,8 @@ router.post('/:id/pick', (req, res) => {
 
     draft.picks.push(pick);
 
-    draft.save().then((doc) => {
-      res.send(doc)
+    draft.save().then((draft) => {
+      res.send({draft})
     }, (e) => {
       res.status(400).send(e)
     });
