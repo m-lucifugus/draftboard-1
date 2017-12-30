@@ -21,8 +21,8 @@ class Drafts extends Component {
         </div>
         <ul>
           {this.state.drafts.map(draft =>
-            <li>
-              <Link key={draft._id} to={`${this.props.match.url}/${draft._id}`}>
+            <li key={draft._id}>
+              <Link to={`${this.props.match.url}/${draft._id}`}>
               {draft.title}
               </Link>
             </li>

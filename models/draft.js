@@ -20,6 +20,18 @@ const draftSchema = mongoose.Schema({
   completedAt: {
     type: Number,
     default: null
+  },
+  timePerPick: {
+    type: Number,
+    default: 120
+  },
+  timeLeftForCurrentPick: {
+    type: Number,
+    default: 120
+  },
+  paused: {
+    type: Boolean,
+    default: true
   }
 });
 

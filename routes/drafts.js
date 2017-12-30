@@ -47,6 +47,58 @@ router.get('/:id', (req, res) => {
   })
 });
 
+router.get('/:id/tick', (req, res) => {
+  let id = req.params.id;
+
+  if (!ObjectId.isValid(id)) {
+    return res.status(404).send('ID is not valid');
+  }
+
+  Draft.findById(id).then((draft) => {
+    if (!draft) {
+      return res.status(404).send();
+    }
+
+    draft.timeLeftForCurrentPick = Math.max(draft.timeLeftForCurrentPick - 1, 0);
+
+    draft.save().then((draft) => {
+      res.send({draft})
+    }, (e) => {
+      res.status(400).send(e)
+    });
+
+    res.send({draft});
+  }).catch((e) => {
+    res.status(400).send();
+  })
+});
+
+router.get('/:id/pause', (req, res) => {
+  let id = req.params.id;
+
+  if (!ObjectId.isValid(id)) {
+    return res.status(404).send('ID is not valid');
+  }
+
+  Draft.findById(id).then((draft) => {
+    if (!draft) {
+      return res.status(404).send();
+    }
+
+    draft.paused = !draft.paused;
+
+    draft.save().then((draft) => {
+      res.send({draft})
+    }, (e) => {
+      res.status(400).send(e)
+    });
+
+    res.send({draft});
+  }).catch((e) => {
+    res.status(400).send();
+  })
+});
+
 router.post('/:id/pick', (req, res) => {
   let id = req.params.id;
 
@@ -67,6 +119,7 @@ router.post('/:id/pick', (req, res) => {
     });
 
     draft.picks.push(pick);
+    draft.timeLeftForCurrentPick = draft.timePerPick;
 
     draft.save().then((draft) => {
       res.send({draft})

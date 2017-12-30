@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import players from './data/players.json';
 import _ from 'lodash';
+import Timer from './Timer';
 
 class Pick extends Component {
   state = {playerToDraft: "", draft: null}
@@ -8,7 +9,39 @@ class Pick extends Component {
   componentDidMount() {
     fetch(`/api/drafts/${this.props.match.params.id}`)
       .then(res => res.json())
-      .then(data => this.setState({ draft: data.draft }));
+      .then(data => {
+        this.setState({ draft: data.draft });
+        this.startTimer();
+      });
+  }
+
+  togglePause() {
+    fetch(`/api/drafts/${this.props.match.params.id}/pause`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ draft: data.draft });
+        this.startTimer();
+      });
+  }
+
+  startTimer() {
+    let component = this;
+    let response = true;
+
+    function tick(){
+        if(response && !component.state.draft.paused) {
+            response = false;
+            fetch(`/api/drafts/${component.props.match.params.id}/tick`)
+              .then(res => res.json())
+              .then(data => {
+                response = true;
+                component.setState({ draft: data.draft });
+                setTimeout(tick,1100);
+              });
+        }
+    }
+
+    tick();
   }
 
   pickIsIn(event) {
@@ -46,6 +79,8 @@ class Pick extends Component {
     return (
       <div className="Pick">
         <h1>Pick {this.state.draft.picks.length % 10 + 1} in Round {Math.floor(this.state.draft.picks.length / 10) + 1}</h1>
+        <Timer draft={this.state.draft}/>
+        <div><button onClick={this.togglePause.bind(this)}>{this.state.draft.paused ? "Resume" : "Pause"}</button></div>
         <select onChange={this.pickIsIn.bind(this)} value={JSON.stringify(this.state.playerToDraft)}>
             <option value="">Select Player</option>
             {

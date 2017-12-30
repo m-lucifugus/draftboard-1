@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './board.css';
 import _ from 'lodash';
+import Timer from './Timer';
 
 class Board extends Component {
   state = {draft: null}
@@ -19,6 +20,7 @@ class Board extends Component {
     return (
       <div className="Board">
         <h1>Board</h1>
+        <Timer draft={this.state.draft}/>
         <h2>
           {this.state.draft.title}: Pick {this.state.draft.picks.length % 10 + 1} in Round {Math.floor(this.state.draft.picks.length / 10) + 1}
         </h2>
