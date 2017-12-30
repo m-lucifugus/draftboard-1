@@ -19,11 +19,11 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   let draft = new Draft({
     title: req.body.title,
-    completed: req.body.completed
+    teams: req.body.teams,
   });
 
-  draft.save().then((doc) => {
-    res.send(doc)
+  draft.save().then((draft) => {
+    res.send({draft})
   }, (e) => {
     res.status(400).send(e)
   });

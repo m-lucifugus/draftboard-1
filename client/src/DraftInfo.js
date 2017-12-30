@@ -33,7 +33,7 @@ class DraftInfo extends Component {
         <ul>
           {
             this.state.draft.teams && this.state.draft.teams.map(team =>
-              <li key={team.name}>{team.name}</li>
+              <li key={team}>{team}</li>
             )
           }
         </ul>

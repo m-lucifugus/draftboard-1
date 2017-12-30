@@ -19,8 +19,6 @@ class Pick extends Component {
 
   draftPlayer() {
     if (this.state.playerToDraft) {
-      console.log("Draft player", this.state.playerToDraft);
-
       fetch(`/api/drafts/${this.props.match.params.id}/pick`, {
         method: "post",
         headers: {
@@ -54,11 +52,16 @@ class Pick extends Component {
                 players.map((player) => {
                     if (_.indexOf(playersSelected, player.name) < 0) {
                       return <option key={player.name} value={JSON.stringify(player)}>{player.name} - {player.team} - {player.position}</option>
+                    } else {
+                      return null;
                     }
                 })
             }
         </select>
         <button onClick={this.draftPlayer.bind(this)}>Draft Player</button>
+        { this.state.playerToDraft &&
+          <h1>Picking: {this.state.playerToDraft.name}</h1>
+        }
       </div>
     );
   }

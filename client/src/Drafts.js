@@ -14,11 +14,20 @@ class Drafts extends Component {
     return (
       <div className="Drafts">
         <h1>Drafts</h1>
-        {this.state.drafts.map(draft =>
-          <Link key={draft._id} to={`${this.props.match.url}/${draft._id}`}>
-          {draft.title}
+        <div>
+          <Link to={`${this.props.match.url}/new`}>
+          New Draft
           </Link>
-        )}
+        </div>
+        <ul>
+          {this.state.drafts.map(draft =>
+            <li>
+              <Link key={draft._id} to={`${this.props.match.url}/${draft._id}`}>
+              {draft.title}
+              </Link>
+            </li>
+          )}
+        </ul>
       </div>
     );
   }
