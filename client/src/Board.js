@@ -34,8 +34,7 @@ class Board extends Component {
         <h2>
           {this.state.draft.title}: Pick {this.state.draft.picks.length % 10 + 1} in Round {Math.floor(this.state.draft.picks.length / 10) + 1}
         </h2>
-        <h3>Picks</h3>
-        <div className="picks">
+        <div className="draft-board">
           {
             _.map(this.state.draft.teams, team => {
               return (
@@ -43,9 +42,15 @@ class Board extends Component {
                   <h4>{team}</h4>
                   {
                     _.map(_.filter(this.state.draft.picks, {selected_by: team}), pick => {
+                      let nameSplit = _.split(pick.name, ' ');
+                      let lastName = _.last(nameSplit);
+                      let firstName = _.dropRight(nameSplit);
+
                       return (
-                        <div key={pick.name}>
-                          {pick.name} {pick.position}
+                        <div key={pick.name} className={`pick ${pick.position}`}>
+                          <div className='position'>{pick.position}</div>
+                          <div className='first-name'>{firstName}</div>
+                          <div className='last-name'>{lastName}</div>
                         </div>
                       );
                     })

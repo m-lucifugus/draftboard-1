@@ -1,7 +1,58 @@
-.picks {
+.draft-board {
     display: flex;
 }
 
 .team {
-    flex-grow: 1;
+    flex: 1;
+}
+
+.pick {
+    height: 5em;
+    border: 1px solid black;
+    position: relative;
+}
+
+.position {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    border: 1px solid black;
+    border-width: 0 0 1px 1px;
+    background-color: inherit;
+}
+
+.first-name {
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.last-name {
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: .5em;
+}
+
+.pick.QB {
+    background-color: blue;
+}
+
+.pick.RB {
+    background-color: yellow;
+}
+
+.pick.WR {
+    background-color: orange;
+}
+
+.pick.TE {
+    background-color: purple;
+}
+
+.pick.K {
+    background-color: green;
+}
+
+.pick.DST {
+    background-color: red;
 }

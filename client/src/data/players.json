@@ -292,5 +292,6 @@
 {"name":"Brandon LaFell","team": "CIN", "position": "WR"},
 {"name":"Dontrelle Inman","team": "CHI", "position": "WR"},
 {"name":"Zach Miller","team": "CHI", "position": "TE"},
-{"name":"Ryan Mathews","team": "FA",  "position": "RB"}
+{"name":"Ryan Mathews","team": "FA",  "position": "RB"},
+{"name":"Harrison Buttker","team": "KC",  "position": "K"}
 ]
