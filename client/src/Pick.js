@@ -36,7 +36,7 @@ class Pick extends Component {
               .then(data => {
                 response = true;
                 component.setState({ draft: data.draft });
-                setTimeout(tick,1100);
+                setTimeout(tick,1025);
               });
         }
     }

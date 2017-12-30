@@ -10,7 +10,7 @@ class Timer extends Component {
     return (
       <div className="Timer">
         <h1>Timer for {this.props.draft.title}</h1>
-        <div>{this.props.draft.timeLeftForCurrentPick}</div>
+        <div>{Math.floor(this.props.draft.timeLeftForCurrentPick / 60)}:{_.padStart(this.props.draft.timeLeftForCurrentPick % 60, 2, '0')}</div>
       </div>
     );
   }
