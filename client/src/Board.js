@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './board.css';
 import _ from 'lodash';
 import Timer from './Timer';
+import PickPopUp from './PickPopUp';
 import Pusher from 'pusher-js';
 
 const socket = new Pusher('ee10fbce41148d3ef784', {
@@ -10,15 +11,23 @@ const socket = new Pusher('ee10fbce41148d3ef784', {
 const channel = socket.subscribe('draft');
 
 class Board extends Component {
-  state = {draft: null}
+  state = {draft: null, showPickPopUp: false}
 
   componentDidMount() {
     fetch(`/api/drafts/${this.props.match.params.id}`)
       .then(res => res.json())
       .then(data => this.setState({ draft: data.draft }));
 
-    channel.bind('update', (data) =>
+    channel.bind('tick', (data) =>
       this.setState({ draft: data.draft })
+    );
+
+    channel.bind('pick', (data) => {
+        this.setState({ draft: data.draft, showPickPopUp: true });
+        setTimeout(() => {
+          this.setState({ showPickPopUp: false });
+        }, 10000);
+      }
     );
   }
 
@@ -60,6 +69,10 @@ class Board extends Component {
             })
           }
         </div>
+        {
+          this.state.showPickPopUp &&
+          <PickPopUp pick={_.last(this.state.draft.picks)} />
+        }
       </div>
     );
   }
