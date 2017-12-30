@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import './timer.css';
 
 class Timer extends Component {
   render() {
@@ -9,7 +10,6 @@ class Timer extends Component {
 
     return (
       <div className="Timer">
-        <h1>Timer for {this.props.draft.title}</h1>
         <div>{Math.floor(this.props.draft.timeLeftForCurrentPick / 60)}:{_.padStart(this.props.draft.timeLeftForCurrentPick % 60, 2, '0')}</div>
       </div>
     );
