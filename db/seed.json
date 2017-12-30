@@ -11,7 +11,7 @@
     "team7",
     "team8",
     "team9",
-    "team10,
+    "team10"
   ],
   "picks": [
     {"name": "Tom Brady", "position": "QB", "team": "NE", "bye": 9, "selected_by": "team1"},
