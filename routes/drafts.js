@@ -63,7 +63,7 @@ router.post('/:id/pick', (req, res) => {
       name: req.body.name,
       position: req.body.position,
       team: req.body.team,
-      selected_by: draft.current_team_picking().name,
+      selected_by: draft.current_team_picking(),
     });
 
     draft.picks.push(pick);

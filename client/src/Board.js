@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './board.css';
+import _ from 'lodash';
 
 class Board extends Component {
   state = {draft: null}
@@ -21,13 +23,26 @@ class Board extends Component {
           {this.state.draft.title}: Pick {this.state.draft.picks.length % 10 + 1} in Round {Math.floor(this.state.draft.picks.length / 10) + 1}
         </h2>
         <h3>Picks</h3>
-        <ul>
+        <div className="picks">
           {
-            this.state.draft.picks && this.state.draft.picks.map(pick =>
-              <li>{pick.name} selected by {pick.selected_by}</li>
-            )
+            _.map(this.state.draft.teams, team => {
+              return (
+                <div className="team">
+                  <h4>{team}</h4>
+                  {
+                    _.map(_.filter(this.state.draft.picks, {selected_by: team}), pick => {
+                      return (
+                        <div key={pick.name}>
+                          {pick.name} {pick.position}
+                        </div>
+                      );
+                    })
+                  }
+                </div>
+              )
+            })
           }
-        </ul>
+        </div>
       </div>
     );
   }

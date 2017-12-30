@@ -1,0 +1,7 @@
+.picks {
+    display: flex;
+}
+
+.team {
+    flex-grow: 1;
+}
