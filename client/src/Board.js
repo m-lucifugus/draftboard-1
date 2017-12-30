@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import './board.css';
 import _ from 'lodash';
 import Timer from './Timer';
+import Pusher from 'pusher-js';
+
+const socket = new Pusher('ee10fbce41148d3ef784', {
+  cluster: 'mt1'
+});
+const channel = socket.subscribe('draft');
 
 class Board extends Component {
   state = {draft: null}
@@ -10,6 +16,10 @@ class Board extends Component {
     fetch(`/api/drafts/${this.props.match.params.id}`)
       .then(res => res.json())
       .then(data => this.setState({ draft: data.draft }));
+
+    channel.bind('update', (data) =>
+      this.setState({ draft: data.draft })
+    );
   }
 
   render() {
@@ -29,7 +39,7 @@ class Board extends Component {
           {
             _.map(this.state.draft.teams, team => {
               return (
-                <div className="team">
+                <div className="team" key={team}>
                   <h4>{team}</h4>
                   {
                     _.map(_.filter(this.state.draft.picks, {selected_by: team}), pick => {

@@ -3,6 +3,14 @@ var router = express.Router();
 const {Draft} = require('../models/draft');
 const {Pick} = require('../models/pick');
 const {ObjectId} = require('mongodb');
+var Pusher = require('pusher');
+
+var pusher = new Pusher({
+  appId: '67112',
+  key: 'ee10fbce41148d3ef784',
+  secret: 'e15f21f1434f3853e949',
+  cluster: 'mt1',
+});
 
 router.get('/', (req, res) => {
   // Calls find function on Todo
@@ -62,6 +70,7 @@ router.get('/:id/tick', (req, res) => {
     draft.timeLeftForCurrentPick = Math.max(draft.timeLeftForCurrentPick - 1, 0);
 
     draft.save().then((draft) => {
+      pusher.trigger('draft', 'update', {draft});
       res.send({draft})
     }, (e) => {
       res.status(400).send(e)
@@ -122,6 +131,7 @@ router.post('/:id/pick', (req, res) => {
     draft.timeLeftForCurrentPick = draft.timePerPick;
 
     draft.save().then((draft) => {
+      pusher.trigger('draft', 'update', {draft});
       res.send({draft})
     }, (e) => {
       res.status(400).send(e)
