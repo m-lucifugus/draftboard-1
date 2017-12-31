@@ -70,7 +70,7 @@ router.get('/:id/tick', (req, res) => {
     draft.timeLeftForCurrentPick = Math.max(draft.timeLeftForCurrentPick - 1, 0);
 
     draft.save().then((draft) => {
-      pusher.trigger('draft', 'tick', {draft});
+      pusher.trigger(`draft-${draft._id}`, 'tick', {draft});
       res.send({draft})
     }, (e) => {
       res.status(400).send(e)
@@ -131,7 +131,7 @@ router.post('/:id/pick', (req, res) => {
     draft.timeLeftForCurrentPick = draft.timePerPick;
 
     draft.save().then((draft) => {
-      pusher.trigger('draft', 'pick', {draft});
+      pusher.trigger(`draft-${draft._id}`, 'pick', {draft});
       res.send({draft})
     }, (e) => {
       res.status(400).send(e)

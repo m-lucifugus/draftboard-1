@@ -8,7 +8,6 @@ import Pusher from 'pusher-js';
 const socket = new Pusher('ee10fbce41148d3ef784', {
   cluster: 'mt1'
 });
-const channel = socket.subscribe('draft');
 
 class Board extends Component {
   state = {draft: null, showPickPopUp: false}
@@ -16,19 +15,23 @@ class Board extends Component {
   componentDidMount() {
     fetch(`/api/drafts/${this.props.match.params.id}`)
       .then(res => res.json())
-      .then(data => this.setState({ draft: data.draft }));
+      .then(data => {
+        this.setState({ draft: data.draft });
 
-    channel.bind('tick', (data) =>
-      this.setState({ draft: data.draft })
-    );
+        const channel = socket.subscribe(`draft-${data.draft._id}`);
 
-    channel.bind('pick', (data) => {
-        this.setState({ draft: data.draft, showPickPopUp: true });
-        setTimeout(() => {
-          this.setState({ showPickPopUp: false });
-        }, 10000);
-      }
-    );
+        channel.bind('tick', (data) =>
+          this.setState({ draft: data.draft })
+        );
+
+        channel.bind('pick', (data) => {
+            this.setState({ draft: data.draft, showPickPopUp: true });
+            setTimeout(() => {
+              this.setState({ showPickPopUp: false });
+            }, 10000);
+          }
+        );
+      });
   }
 
   render() {
