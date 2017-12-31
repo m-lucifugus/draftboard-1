@@ -127,7 +127,7 @@ router.post('/:id/pick', (req, res) => {
       selected_by: draft.current_team_picking(),
     });
 
-    draft.picks.push(pick);
+    draft.picks = draft.picks.concat([pick]);
     draft.timeLeftForCurrentPick = draft.timePerPick;
 
     draft.save().then((draft) => {
